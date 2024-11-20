@@ -101,7 +101,7 @@ const Register = () => {
               htmlFor="country"
               className=" mt-2 peer h-10 w-full  text-black-300 placeholder-transparent transition-colors focus:outline-none text-left"
             />
-             <label
+            <label
               htmlFor="Country"
               className="absolute cursor-text left-0 -top-3.5 text-gray-600 text-xs transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-black-400 peer-placeholder-shown:top-2 peer-focus:-top-3.5 peer-focus:text-black-600 peer-focus:text-xs duration-500"
             >
@@ -135,11 +135,11 @@ const Register = () => {
           >
             SIGN IN
           </button>
-          <button className="mt-3 w-full bg-white text-black border border-black transition-all duration-300 ease-in-out py-3 hover:bg-black hover:text-white">
             <Link to={"/login"} type="submit">
+          <button className="mt-3 w-full bg-white text-black border border-black transition-all duration-300 ease-in-out py-3 hover:bg-black hover:text-white">
               CANCEL
-            </Link>
           </button>
+            </Link>
           <div className="flex flex-col items-baseline">
             <div className="mb-4">
               <label htmlFor="agree" className="text-xs flex items-center">
