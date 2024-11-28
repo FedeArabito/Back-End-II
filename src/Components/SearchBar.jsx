@@ -1,21 +1,31 @@
-import { IoMdSearch } from "react-icons/io";
+import { useState } from "react"
+import { Search } from 'lucide-react'
+import { Input } from  "./ui/input.tsx"
+import { Button } from "./ui/button.tsx"
 
-const SearchBar = () => {
+export function SearchBar() {
+  const [query, setQuery] = useState("")
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    // TODO: Implement search functionality
+    console.log("Searching for:", query)
+  }
+
   return (
-    <div className="flex justify-center items-center  border-r-slate-500 border-gray-300 bg-[#989898] w-36 gap-0">
-      <input
-        type="text"
-        placeholder=""
-        className=" w-5/5 px-4 py-2 text-md text-gray-700 outline-none placeholder-gray-400 bg-[#989898]  focus:ring-2 focus:ring-black-500"
+    <form onSubmit={handleSubmit} className="flex w-full max-w-sm items-center space-x-2">
+      <Input
+        type="search"
+        placeholder="Search..."
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        className="flex-grow"
       />
-      <button
-        type="button"
-        className="ml-2 text-lg text-black-500 hover:text-black-700 py-2 px-4 bg-[#989898]"
-      >
-        <IoMdSearch className="text-black bg-[#989898]" />
-      </button>
-    </div>
-  );
-};
+      <Button type="submit" size="icon" aria-label="Search">
+        <Search className="h-4 w-full object-contain text-muted-foreground text-white" />
+      </Button>
+    </form>
+  )
+}
 
-export default SearchBar;
+export default SearchBar
