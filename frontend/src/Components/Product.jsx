@@ -1,30 +1,57 @@
-import React from 'react'
 
-const Product = ({ product }) => {
+import { useState } from "react";
+import {  ShoppingCart } from "lucide-react";
+
+import { Button } from "./ui/button";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card";
+import { Badge } from "./ui/badge";
+
+
+const ProductCard = ({ product, onAddToCart }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleAddToCart = () => {
+    setIsLoading(true);
+    onAddToCart(product.id);
+    setTimeout(() => setIsLoading(false), 1000); // Simulating API call
+  };
+
   return (
-    <div className="max-w-xs bg-white border border-gray-200 rounded-lg shadow hover:shadow-lg transition p-4">
-      <div className="w-full h-48 overflow-hidden rounded-t-lg">
-        <img
-          src={product.image}
-          alt="Product"
-          className="w-full h-full object-fit rounded-t-lg"
-        />
-      </div>
-
-      <div className="mt-4">
-        <h5 className="text-lg font-bold text-gray-800 truncate">
-          {product.title}
-        </h5>
-        <p className="text-sm text-gray-500 mt-1">{product.category} </p>
-        <div className="flex items-center justify-between mt-3">
-          <span className="text-xl font-semibold text-blue-600">${product.price}</span>
-          <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
-            Add to Cart
-          </button>
+    <Card className="w-full max-w-sm transition-all duration-300 hover:shadow-lg">
+      <CardHeader className="p-0">
+        <div className="relative aspect-square overflow-hidden rounded-t-lg">
+          <img
+            src={product.imageURL} 
+            alt={product.name} 
+            fill
+            className="object-cover transition-transform duration-300 hover:scale-105"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
         </div>
-      </div>
-    </div>
-  )
-}
+      </CardHeader>
+      <CardContent className="p-4">
+        <Badge className="mb-2">{product.category}</Badge>
+        <CardTitle className="line-clamp-1" title={product.name}> 
+          {product.name} 
+        </CardTitle>
+        
+        
+      </CardContent>
+      <CardFooter className="flex items-center justify-between p-4">
+        <span className="text-xl font-semibold">${product.price.toFixed(2)}</span>
+        <Button onClick={handleAddToCart} disabled={isLoading}>
+          {isLoading ? (
+            "Adding..."
+          ) : (
+            <>
+              <ShoppingCart className="mr-2 h-4 w-4" />
+              Add to Cart
+            </>
+          )}
+        </Button>
+      </CardFooter>
+    </Card>
+  );
+};
 
-export default Product
+export default ProductCard;

@@ -1,51 +1,48 @@
-import { useEffect, useState } from "react"
-import Spinner from "./Spinner.jsx"
-import ProductList from "./ProductList.jsx"
+import React, { useEffect, useState } from "react"
+import Spinner from "./Spinner"
+import ProductList from "./ProductList"
+import axios from 'axios'
 
 const ProductContainer = () => {
-  
   const [loading, setLoading] = useState(true)
   const [message, setMessage] = useState('')
-  const [data, setData] = useState([{}])
+  const [data, setData] = useState([])
   const [error, setError] = useState('')
 
-  useEffect(()=>{
-    /**
-     * Fetches the data from the API and stores it in the component's state.
-     * If the fetch fails, it sets the error state.
-     */
+  useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch the data from the API
-        const response = await fetch('https://fakestoreapi.com/products')
-        // Parse the response as JSON
-        const json = await response.json()
-        
-        // Store the data in the component's state
-        setData(json)
+        console.log("Fetching data...");
+        const response = await axios.get("http://localhost:5000/api/products");
+        console.log("Response:", response);
+        setData(response.data);
+        setMessage("Funcionó");
       } catch (error) {
-        // If the fetch fails, set the error state
-        setError(error)
+        console.error("Error fetching data:", error);
+        setError(`Error fetching data: ${error.message}`);
+      } finally {
+        setLoading(false);
       }
-    }
-    fetchData();    
-      setTimeout(()=>{
-          setLoading(false)
-          setMessage(
-            'Funciono'
-          )
-      }, 5000)
-  }, [])
+    };
 
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <Spinner className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />;
+  }
+
+  if (error) {
+    return <div className="text-red-500 text-center mt-4">{error}</div>;
+  }
 
   return (
-    <div>
+    <div className="container mx-auto p-4">
       
-      {loading ? <Spinner classname="absolute top-1 left-1 flex justify-center items-center"/> : <ProductList data={data}/>};
-      
-
+      <ProductList data={data} />
     </div>
-  )
+  );
 }
 
 export default ProductContainer
+
