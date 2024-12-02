@@ -1,15 +1,20 @@
+
+import dotenv from "dotenv"
 import express from "express"
 import dbConnect from "./src/utils/dbConnect.js";
 import ProductModel from "./src/data/mongo/models/productModel.js";
-import cors from "cors"
+import cors from "cors" 
 
+
+dotenv.config();
 
 const app = express()
-const PORT = process.env.PORT;
+const port = process.env.PORT ;
+
 
 
 app.use(cors());
-app.listen(5000, () => {
+app.listen(port, () => {
   console.log(`Server running on port 5000`);
   dbConnect();
 })

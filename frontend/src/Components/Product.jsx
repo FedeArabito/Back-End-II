@@ -5,9 +5,10 @@ import {  ShoppingCart } from "lucide-react";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
+import ProductDetailContainer from "./ProductDetailContainer";
 
 
-const ProductCard = ({ product, onAddToCart }) => {
+const Product = ({ product, onAddToCart }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleAddToCart = () => {
@@ -17,7 +18,7 @@ const ProductCard = ({ product, onAddToCart }) => {
   };
 
   return (
-    <Card className="w-full max-w-sm transition-all duration-300 hover:shadow-lg">
+    <Card className="w-full max-w-sm transition-all duration-300 hover:shadow-lg"  onClick={<ProductDetailContainer product={product}/>}>
       <CardHeader className="p-0">
         <div className="relative aspect-square overflow-hidden rounded-t-lg">
           <img
@@ -54,4 +55,4 @@ const ProductCard = ({ product, onAddToCart }) => {
   );
 };
 
-export default ProductCard;
+export default Product;
