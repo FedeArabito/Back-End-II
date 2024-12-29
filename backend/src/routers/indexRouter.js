@@ -12,5 +12,5 @@ class IndexRouter extends CustomRouter {
 }
 
 let indexRouter = new IndexRouter();
-
-export default indexRouter.getRouter();
+indexRouter = indexRouter.getRouter();
+export default indexRouter;

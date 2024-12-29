@@ -6,24 +6,22 @@ class Manager {
   create = async (data) => {
     try {
       return await this.model.create(data);
-      
     } catch (error) {
-        throw error   
+      throw error
     }
-    
+
   };
 
   readByEmail = async (email) => {
     try {
       return await this.model.findOne({ email }).lean;
-      
     } catch (error) {
-        throw error   
+      throw error
     }
-    
+
   };
 
-  readById = async (id)=>{
+  readById = async (id) => {
     try {
       return await this.model.find(id).lean()
     } catch (error) {
@@ -31,7 +29,7 @@ class Manager {
     }
   }
 
-  read = async(data)=>{
+  read = async (data) => {
     try {
       return await this.model.find(data).lean()
     } catch (error) {
@@ -39,23 +37,23 @@ class Manager {
     }
   }
 
-  update = async (data, id)=>{
+  update = async (data, id) => {
     try {
       return await this.model.findOneAndUpdate({ _id: id }, data, { new: true });
     } catch (error) {
-      
+
     }
 
   }
 
-  destroy = async(id)=>{
+  destroy = async (id) => {
     try {
       return await this.model.findByIdAndDelete(id)
     } catch (error) {
       throw error
     }
   }
-  
+
 
 }
 

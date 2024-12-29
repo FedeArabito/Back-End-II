@@ -1,8 +1,25 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 
 const LogIn = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const login = async (e) => {
+    e.preventDefault();
+    const response = await axios.post("http://localhost:5000/api/login", {
+      email: email,
+      password: password,
+    })
+    if (response.status === 200) {
+      navigate("/");
+    }
+    else {
+      return console.log("error")
+    }
+  }
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   return (
     <div className="flex flex-col items-center justify-center md:mt-20 p-6 bg-white">
@@ -13,6 +30,7 @@ const LogIn = () => {
             <input
               type="text"
               id="username"
+              onChange={e => setEmail(e.target.value)}
               className="peer h-10 w-full border-b border-gray-600 text-black-300 placeholder-transparent transition-colors focus:outline-none text-left"
               placeholder="Email Adress"
             />
@@ -27,6 +45,7 @@ const LogIn = () => {
             <input
               type="password"
               id="password"
+              onChange={e => setPassword(e.target.value)}
               className="peer h-10 w-full border-b border-gray-600 focus:border-black-600 text-black-600 placeholder-transparent focus:outline-none text-left"
               placeholder="Password"
             />
@@ -38,16 +57,16 @@ const LogIn = () => {
             </label>
           </div>
 
-            
+
           <a
             href="#"
             className="block mt-4 text-xs text-gray-600 text-underline underline"
           >
             FORGOT PASSWORD?
           </a>
-          <button   type="submit" 
-                    className="w-full text-white bg-black border border-white tranasition-all duration-300 ease-in-out py-3 hover:bg-white hover:text-black hover:border-black"
-                    onClick={()=> navigate('/')}>
+          <button type="submit"
+            className="w-full text-white bg-black border border-white tranasition-all duration-300 ease-in-out py-3 hover:bg-white hover:text-black hover:border-black"
+            onClick={() => navigate('/')}>
             SIGN IN
           </button>
         </form>

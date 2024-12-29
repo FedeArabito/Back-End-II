@@ -1,7 +1,7 @@
 import dotenv from "dotenv"
 import express from "express"
 import dbConnect from "./src/utils/dbConnect.js";
-import ProductModel from "./src/data/mongo/models/productModel.js";
+import ProductModel from "./src/dao/mongo/models/productModel.js";
 import cors from "cors"
 import cookieParser from "cookie-parser";
 import session from "express-session"
@@ -11,6 +11,7 @@ import errorHandler from "./src/middlewares/errorHandler.js";
 import morgan from "morgan";
 import pkg from "passport";
 import indexRouter from "./src/routers/indexRouter.js";
+import envUtil from "./src/utils/env.js";
 
 
 dotenv.config();
@@ -18,11 +19,10 @@ dotenv.config();
 
 
 const app = express()
-const port = process.env.PORT;
+const port = envUtil.PORT;
 
 
 
-app.use(cors());
 app.listen(port, () => {
   console.log(`Server running on port 5000`);
   dbConnect();
@@ -32,18 +32,22 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static("public"))
 app.use(morgan("dev"))
-app.use(cookieParser(process.env.JWT_SECRET))
+app.use(cookieParser(envUtil.JWT_SECRET))
 app.use(
   session({
-    secret: process.env.JWT_SECRET,
+    secret: envUtil.JWT_SECRET,
     resave: true,
     saveUninitialized: true,
     store: new MongoStore({
-      mongoUrl: process.env.MONGO_LINK,
+      mongoUrl: envUtil.MONGO_LINK,
       ttl: 24 * 60 * 60,
     }),
   })
 )
+app.use(cors({
+  origin: true,
+  credentials: true
+}))
 
 app.use(indexRouter)
 app.use(errorHandler)
@@ -59,7 +63,6 @@ app.get("/api/products", async (req, res) => {
   } catch (error) {
     const errorMessage = res.status(500).json({ error: "Failed to fetch products" })
     console.log(errorMessage);
-
   }
 })
 
